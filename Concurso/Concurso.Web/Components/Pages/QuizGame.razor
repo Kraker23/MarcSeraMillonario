@@ -1,0 +1,434 @@
+@page "/"
+@page "/quiz"
+@rendermode InteractiveServer
+@layout EmptyLayout
+@using Concurso.Web.Shared
+@using System.Text.Json
+@inject IWebHostEnvironment WebHostEnvironment
+
+<PageTitle>¿Quién Quiere Ser Millonario?</PageTitle>
+
+<div class="quiz-container" style="background: linear-gradient(135deg, #0a0a2e 0%, #16213e 50%, #0f3460 100%); height: 100vh; color: white; padding: 10px; overflow: hidden; box-sizing: border-box;">
+    <div class="game-background" style="display: grid; grid-template-columns: 200px 1fr 200px; gap: 10px; height: 100%; box-sizing: border-box;">
+
+        <!-- Panel Izquierdo - Escalera de Premios -->
+        <div class="left-panel" style="overflow-y: auto; overflow-x: hidden;">
+            <div class="money-ladder" style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 10px; backdrop-filter: blur(10px);">
+                <h3 style="color: #ffd700; text-align: center; margin-bottom: 10px; font-size: 1em;">Escalera de Premios</h3>
+                <div class="ladder-container" style="display: flex; flex-direction: column; gap: 5px;">
+                    @for (int i = prizeList.Length - 1; i >= 0; i--)
+                    {
+                        var level = i;
+                        var isCurrentLevel = level == currentQuestionIndex;
+                        var isCompleted = level < currentQuestionIndex;
+                        var isMilestone = (level == 4 || level == 9 || level == 14);
+
+                        var bgColor = isCurrentLevel ? "background: linear-gradient(145deg, #ffd700, #ffed4e); color: #0a0a2e; font-weight: bold; border-color: #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);" 
+                                    : isCompleted ? "background: linear-gradient(145deg, #0d5a0d, #1a7a1a); color: white; border-color: #4caf50;" 
+                                    : isMilestone ? "background: linear-gradient(145deg, #2d4a2d, #3d5a3d); border-color: #4caf50; color: #ccc;" 
+                                    : "background: linear-gradient(145deg, #1a1a3e, #2d2d5f); color: #ccc;";
+
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border: 2px solid transparent; border-radius: 20px; transition: all 0.3s; @bgColor">
+                            <span style="font-size: 0.75em; opacity: 0.8;">@(level + 1)</span>
+                            <span style="font-size: 0.9em; font-weight: bold;">€@prizeList[level]</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel Central - Pregunta o Pantallas -->
+        <div class="center-panel" style="display: flex; align-items: center; justify-content: center; padding: 40px;">
+            @if (currentQuestion != null)
+            {
+                <!-- Tarjeta de Pregunta -->
+                <div style="width: 100%; max-width: 900px;">
+                    <div style="background: linear-gradient(145deg, #1e3a8a, #3b82f6); border: 3px solid #60a5fa; border-radius: 20px; padding: 30px; margin-bottom: 30px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
+                        <span style="font-size: 3em; color: #ffd700; background: rgba(255, 215, 0, 0.2); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">?</span>
+                        <h2 style="color: white; font-size: 1.8em; margin: 0; flex: 1;">@currentQuestion.pregunta</h2>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        @foreach (var (answer, index) in currentQuestion.respuestas.Select((a, i) => (a, i)))
+                        {
+                            var letter = ((char)('A' + index)).ToString();
+                            var isSelected = selectedAnswer == answer && !showCorrectAnswer;
+                            var isCorrect = showCorrectAnswer && answer.esCorrecta;
+                            var isIncorrect = showCorrectAnswer && selectedAnswer == answer && !answer.esCorrecta;
+                            var respuestCorrecta = $"({(answer.esCorrecta ? "S" : "N")})";
+
+                            var buttonStyle = isCorrect ? "background: linear-gradient(145deg, #10b981, #059669); border-color: #34d399;" 
+                                            : isIncorrect ? "background: linear-gradient(145deg, #ef4444, #dc2626); border-color: #f87171;" 
+                                            : isSelected ? "background: linear-gradient(145deg, #ffa500, #ff8c00); border-color: #ffd700;" 
+                                            : "background: linear-gradient(145deg, #0f172a, #1e293b); border-color: #334155;";
+                            
+                            <button style="display: flex; align-items: center; gap: 15px; border: 3px solid; border-radius: 15px; padding: 25px 30px; cursor: pointer; color: white; font-size: 1.2em; text-align: left; transition: all 0.3s; @buttonStyle" 
+                                    @onclick="@(() => HandleAnswerClick(answer))"
+                                    disabled="@isAnswerLocked">
+                                <span style="background: linear-gradient(145deg, #1e3a8a, #3b82f6); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.3em;">@letter:</span>
+                                <span style="flex: 1;">@(answer.textoRespuesta +" "+ @respuestCorrecta) </span>
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+            else if (gameOver)
+            {
+                <!-- Pantalla de Game Over -->
+                <div style="text-align: center; animation: fadeIn 1s;">
+                    <h1 style="font-size: 3em; margin-bottom: 30px; text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); color: #ffd700;">¡Juego Terminado!</h1>
+                    <h2 style="font-size: 2em; color: #4caf50; margin-bottom: 30px;">Premio: €@GetCurrentPrize()</h2>
+                    <button style="background: linear-gradient(145deg, #ffd700, #ffed4e); border: none; padding: 20px 60px; font-size: 1.5em; font-weight: bold; border-radius: 50px; cursor: pointer; box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); color: #0a0a2e; transition: all 0.3s;" 
+                            @onclick="RestartGame">
+                        Jugar de Nuevo
+                    </button>
+                </div>
+            }
+            else
+            {
+                <!-- Pantalla de Bienvenida -->
+                <div style="text-align: center; animation: fadeIn 1s;">
+                    <h1 style="font-size: 3em; margin-bottom: 30px; text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); color: #ffd700;">¿Quién Quiere Ser Millonario?</h1>
+                    <button style="background: linear-gradient(145deg, #ffd700, #ffed4e); border: none; padding: 20px 60px; font-size: 1.5em; font-weight: bold; border-radius: 50px; cursor: pointer; box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); color: #0a0a2e; transition: all 0.3s;" 
+                            @onclick="StartGame">
+                        Comenzar Juego
+                    </button>
+                </div>
+            }
+        </div>
+
+        <!-- Panel Derecho - Comodines -->
+        <div class="right-panel" style="overflow-y: auto;">
+            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 10px; backdrop-filter: blur(10px);">
+                <h3 style="color: #ffd700; text-align: center; margin-bottom: 10px; font-size: 1em;">Comodines</h3>
+
+                <button style="display: flex; flex-direction: column; align-items: center; background: linear-gradient(145deg, #1e3a8a, #3b82f6); border: 2px solid #60a5fa; padding: 12px; margin-bottom: 10px; border-radius: 10px; cursor: @(lifelineUsed[0] ? "not-allowed" : "pointer"); color: white; font-size: 0.9em; width: 100%; opacity: @(lifelineUsed[0] ? "0.3" : "1"); transition: all 0.3s;"
+                        disabled="@lifelineUsed[0]" 
+                        @onclick="@(() => UseLifeline(0))">
+                    <span style="font-size: 1.8em; margin-bottom: 5px;">☎️</span>
+                    <span>Llamada</span>
+                </button>
+
+                <button style="display: flex; flex-direction: column; align-items: center; background: linear-gradient(145deg, #1e3a8a, #3b82f6); border: 2px solid #60a5fa; padding: 12px; margin-bottom: 10px; border-radius: 10px; cursor: @(lifelineUsed[1] ? "not-allowed" : "pointer"); color: white; font-size: 0.9em; width: 100%; opacity: @(lifelineUsed[1] ? "0.3" : "1"); transition: all 0.3s;"
+                        disabled="@lifelineUsed[1]" 
+                        @onclick="@(() => UseLifeline(1))">
+                    <span style="font-size: 1.8em; margin-bottom: 5px;">👥</span>
+                    <span>Público</span>
+                </button>
+
+                <button style="display: flex; flex-direction: column; align-items: center; background: linear-gradient(145deg, #1e3a8a, #3b82f6); border: 2px solid #60a5fa; padding: 12px; margin-bottom: 10px; border-radius: 10px; cursor: @(lifelineUsed[2] ? "not-allowed" : "pointer"); color: white; font-size: 0.9em; width: 100%; opacity: @(lifelineUsed[2] ? "0.3" : "1"); transition: all 0.3s;"
+                        disabled="@lifelineUsed[2]" 
+                        @onclick="@(() => UseLifeline(2))">
+                    <span style="font-size: 1.8em; margin-bottom: 5px;">➗</span>
+                    <span>50:50</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 1200px) {
+        .game-background {
+            grid-template-columns: 180px 1fr 180px !important;
+        }
+    }
+
+    @@media (max-width: 992px) {
+        .game-background {
+            grid-template-columns: 1fr !important;
+            grid-template-rows: auto 1fr auto !important;
+            gap: 10px !important;
+        }
+
+        .left-panel, .right-panel {
+            max-height: 150px !important;
+        }
+
+        .money-ladder h3, .right-panel h3 {
+            font-size: 0.9em !important;
+        }
+
+        .ladder-container {
+            display: grid !important;
+            grid-template-columns: repeat(5, 1fr) !important;
+            gap: 3px !important;
+        }
+
+        .right-panel > div {
+            display: flex !important;
+            gap: 10px !important;
+        }
+
+        .right-panel button {
+            flex: 1 !important;
+            padding: 10px !important;
+            margin-bottom: 0 !important;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .quiz-container {
+            padding: 5px !important;
+        }
+
+        .center-panel h1 {
+            font-size: 1.8em !important;
+        }
+
+        .center-panel h2 {
+            font-size: 1.2em !important;
+        }
+
+        .center-panel button {
+            padding: 12px 35px !important;
+            font-size: 1.1em !important;
+        }
+
+        .center-panel > div > div:first-child h2 {
+            font-size: 1.1em !important;
+        }
+
+        .center-panel > div > div:last-child {
+            grid-template-columns: 1fr !important;
+        }
+    }
+
+    /* Scrollbar personalizado */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(255, 215, 0, 0.5);
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 215, 0, 0.7);
+    }
+</style>
+
+@code {
+    private Questionario? questionario;
+    private Pregunta? currentQuestion;
+    private int currentQuestionIndex = 0;
+    private bool gameOver = false;
+    private bool isAnswerLocked = false;
+    private Respuesta? selectedAnswer;
+    private bool showCorrectAnswer = false;
+    private bool[] lifelineUsed = new bool[3];
+
+    private readonly string[] prizeList = new[]
+    {
+        "100", "200", "500", "1.000", "2.000",
+        "4.000", "8.000", "16.000", "32.000", "64.000"
+    };
+
+    protected override void OnInitialized()
+    {
+        // Las preguntas se cargarán de forma asíncrona
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadQuestionsFromJson();
+    }
+
+    private async Task LoadQuestionsFromJson()
+    {
+        try
+        {
+            var jsonPath = Path.Combine(WebHostEnvironment.ContentRootPath, "Shared", "preguntas.json");
+
+            if (File.Exists(jsonPath))
+            {
+                var jsonContent = await File.ReadAllTextAsync(jsonPath);
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                var jsonData = JsonSerializer.Deserialize<QuestionarioDto>(jsonContent, options);
+
+                if (jsonData != null && jsonData.Preguntas.Any())
+                {
+                    questionario = new Questionario
+                    {
+                        preguntas = jsonData.Preguntas.Select(p => new Pregunta
+                        {
+                            IdPregunta = Guid.NewGuid(),
+                            pregunta = p.Pregunta,
+                            respuestas = p.Respuestas.Select(r => new Respuesta
+                            {
+                                IdRespuesta = Guid.NewGuid(),
+                                textoRespuesta = r.Texto,
+                                esCorrecta = r.EsCorrecta
+                            }).ToList()
+                        }).ToList()
+                    };
+                }
+            }
+            else
+            {
+                Console.WriteLine($"JSON file not found at: {jsonPath}");
+                LoadDefaultQuestions();
+            }
+        }
+        catch (Exception ex)
+        {
+            // Fallback: cargar preguntas por defecto si falla la carga del JSON
+            Console.WriteLine($"Error loading questions from JSON: {ex.Message}");
+            LoadDefaultQuestions();
+        }
+    }
+
+    private void LoadDefaultQuestions()
+    {
+        questionario = new Questionario
+        {
+            preguntas = new List<Pregunta>
+            {
+                new Pregunta
+                {
+                    pregunta = "¿Cuál es la capital de España?",
+                    respuestas = new List<Respuesta>
+                    {
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Madrid", esCorrecta = true },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Barcelona", esCorrecta = false },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Valencia", esCorrecta = false },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Sevilla", esCorrecta = false }
+                    }
+                },
+                new Pregunta
+                {
+                    pregunta = "¿En qué año llegó el hombre a la Luna?",
+                    respuestas = new List<Respuesta>
+                    {
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "1965", esCorrecta = false },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "1969", esCorrecta = true },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "1972", esCorrecta = false },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "1975", esCorrecta = false }
+                    }
+                },
+                new Pregunta
+                {
+                    pregunta = "¿Quién pintó 'La Gioconda'?",
+                    respuestas = new List<Respuesta>
+                    {
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Picasso", esCorrecta = false },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Da Vinci", esCorrecta = true },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Van Gogh", esCorrecta = false },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Dalí", esCorrecta = false }
+                    }
+                },
+                new Pregunta
+                {
+                    pregunta = "¿Cuál es el planeta más grande del sistema solar?",
+                    respuestas = new List<Respuesta>
+                    {
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Marte", esCorrecta = false },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Júpiter", esCorrecta = true },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Saturno", esCorrecta = false },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Neptuno", esCorrecta = false }
+                    }
+                },
+                new Pregunta
+                {
+                    pregunta = "¿Quién escribió 'Don Quijote de la Mancha'?",
+                    respuestas = new List<Respuesta>
+                    {
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Lope de Vega", esCorrecta = false },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Miguel de Cervantes", esCorrecta = true },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "García Lorca", esCorrecta = false },
+                        new Respuesta { IdRespuesta = Guid.NewGuid(), textoRespuesta = "Quevedo", esCorrecta = false }
+                    }
+                }
+            }
+        };
+    }
+
+    private void StartGame()
+    {
+        currentQuestionIndex = 0;
+        gameOver = false;
+        isAnswerLocked = false;
+        selectedAnswer = null;
+        showCorrectAnswer = false;
+        lifelineUsed = new bool[3];
+        currentQuestion = questionario?.preguntas[currentQuestionIndex];
+    }
+
+    private async Task HandleAnswerClick(Respuesta answer)
+    {
+        if (isAnswerLocked) return;
+
+        selectedAnswer = answer;
+        isAnswerLocked = true;
+        StateHasChanged();
+
+        await Task.Delay(1000);
+
+        showCorrectAnswer = true;
+        StateHasChanged();
+
+        await Task.Delay(2500);
+
+        if (answer.esCorrecta)
+        {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questionario!.preguntas.Count)
+            {
+                currentQuestion = questionario.preguntas[currentQuestionIndex];
+                isAnswerLocked = false;
+                selectedAnswer = null;
+                showCorrectAnswer = false;
+            }
+            else
+            {
+                gameOver = true;
+                currentQuestion = null;
+            }
+        }
+        else
+        {
+            gameOver = true;
+            currentQuestion = null;
+        }
+    }
+
+    private void UseLifeline(int index)
+    {
+        lifelineUsed[index] = true;
+        StateHasChanged();
+    }
+
+    private void RestartGame()
+    {
+        StartGame();
+    }
+
+    private string GetCurrentPrize()
+    {
+        int prizeIndex = currentQuestionIndex > 0 ? currentQuestionIndex - 1 : 0;
+        return prizeList[Math.Min(prizeIndex, prizeList.Length - 1)];
+    }
+}

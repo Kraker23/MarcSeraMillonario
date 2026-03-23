@@ -1,0 +1,45 @@
+@using Concurso.Web.Shared
+
+<div class="money-ladder" style="background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); color: white;">
+    <h3 style="color: #ffd700; text-align: center; margin-bottom: 20px; font-size: 1.2em;">Escalera de Premios</h3>
+    <div class="ladder-container" style="display: flex; flex-direction: column; gap: 8px;">
+        @for (int i = prizes.Length - 1; i >= 0; i--)
+        {
+            var level = i;
+            var baseStyle = "display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border: 2px solid transparent; border-radius: 25px; transition: all 0.3s;";
+            var currentStyle = level == CurrentLevel ? "background: linear-gradient(145deg, #ffd700, #ffed4e); color: #0a0a2e; font-weight: bold; border-color: #ffd700; transform: scale(1.05);" : "";
+            var completedStyle = level < CurrentLevel ? "background: linear-gradient(145deg, #0d5a0d, #1a7a1a); color: white; border-color: #4caf50;" : "";
+            var milestoneStyle = (level == 4 || level == 9 || level == 14) && level > CurrentLevel ? "background: linear-gradient(145deg, #2d4a2d, #3d5a3d); border-color: #4caf50; color: #ccc;" : "";
+            var defaultStyle = level > CurrentLevel && level != 4 && level != 9 && level != 14 ? "background: linear-gradient(145deg, #1a1a3e, #2d2d5f); color: #ccc;" : "";
+            var finalStyle = baseStyle + " " + currentStyle + completedStyle + milestoneStyle + defaultStyle;
+
+            <div class="prize-level" style="@finalStyle">
+                <span class="prize-number" style="font-size: 0.9em; opacity: 0.8;">@(level + 1)</span>
+                <span class="prize-amount" style="font-size: 1.1em; font-weight: bold;">€@prizes[level]</span>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int CurrentLevel { get; set; }
+
+    private readonly string[] prizes = new[]
+    {
+        "100", "200", "300", "500", "1.000",
+        "2.000", "4.000", "8.000", "16.000", "32.000",
+        "64.000", "125.000", "250.000", "500.000", "1.000.000"
+    };
+
+    private string GetPrizeClass(int level)
+    {
+        if (level == CurrentLevel)
+            return "current";
+        if (level < CurrentLevel)
+            return "completed";
+        if (level == 4 || level == 9 || level == 14)
+            return "milestone";
+        return "";
+    }
+}

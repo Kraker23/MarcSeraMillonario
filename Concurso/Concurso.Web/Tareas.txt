@@ -1,0 +1,5 @@
+Tareas pendientes de hacer
+- hacer que el comidin del 50% funcion automaticamente
+- ajustar visuales para que todo se ajuste mas a la pantalla
+- hacer que el juego se pueda jugar con teclado y mouse
+- 

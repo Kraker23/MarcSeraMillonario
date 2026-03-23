@@ -1,0 +1,72 @@
+.money-ladder {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    height: fit-content;
+}
+
+.money-ladder h3 {
+    color: #ffd700;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.ladder-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.prize-level {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: linear-gradient(145deg, #1a1a3e, #2d2d5f);
+    border: 2px solid transparent;
+    border-radius: 25px;
+    transition: all 0.3s;
+    color: #ccc;
+}
+
+.prize-level.milestone {
+    background: linear-gradient(145deg, #2d4a2d, #3d5a3d);
+    border-color: #4caf50;
+}
+
+.prize-level.current {
+    background: linear-gradient(145deg, #ffd700, #ffed4e);
+    border-color: #ffd700;
+    color: #0a0a2e;
+    font-weight: bold;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    animation: pulse 1.5s infinite;
+}
+
+.prize-level.completed {
+    background: linear-gradient(145deg, #0d5a0d, #1a7a1a);
+    border-color: #4caf50;
+    color: white;
+}
+
+.prize-number {
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+.prize-amount {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.9);
+    }
+}

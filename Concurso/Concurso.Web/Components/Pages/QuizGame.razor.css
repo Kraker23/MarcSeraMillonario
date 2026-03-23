@@ -1,0 +1,143 @@
+.quiz-container {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a0a2e 0%, #16213e 50%, #0f3460 100%);
+    position: relative;
+}
+
+.game-background {
+    display: grid;
+    grid-template-columns: 250px 1fr 250px;
+    gap: 20px;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.left-panel, .right-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.center-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.welcome-screen, .game-over {
+    text-align: center;
+    color: white;
+    animation: fadeIn 1s;
+}
+
+.welcome-screen h1, .game-over h1 {
+    font-size: 3em;
+    margin-bottom: 30px;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    color: #ffd700;
+}
+
+.game-over h2 {
+    font-size: 2em;
+    color: #4caf50;
+    margin-bottom: 30px;
+}
+
+.btn-start, .btn-restart {
+    background: linear-gradient(145deg, #ffd700, #ffed4e);
+    border: none;
+    padding: 20px 60px;
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+    color: #0a0a2e;
+}
+
+.btn-start:hover, .btn-restart:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(255, 215, 0, 0.4);
+}
+
+.lifelines {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.lifelines h3 {
+    color: #ffd700;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.lifeline-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(145deg, #1e3a8a, #3b82f6);
+    border: 2px solid #60a5fa;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: white;
+    font-size: 1em;
+    width: 100%;
+}
+
+.lifeline-btn:hover:not(:disabled) {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.5);
+}
+
+.lifeline-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: #555;
+    border-color: #777;
+}
+
+.lifeline-icon {
+    font-size: 2em;
+    margin-bottom: 5px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 1200px) {
+    .game-background {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+    }
+
+    .left-panel, .right-panel {
+        padding: 10px;
+    }
+
+    .lifelines {
+        display: flex;
+        gap: 10px;
+    }
+
+    .lifeline-btn {
+        margin-bottom: 0;
+    }
+}

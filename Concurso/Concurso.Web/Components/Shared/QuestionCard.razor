@@ -1,0 +1,79 @@
+@using Concurso.Web.Shared
+
+<div class="question-card" style="width: 100%; max-width: 900px; color: white;">
+    <div class="question-text" style="background: linear-gradient(145deg, #1e3a8a, #3b82f6); border: 3px solid #60a5fa; border-radius: 20px; padding: 30px; margin-bottom: 30px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 20px;">
+        <span class="question-icon" style="font-size: 3em; color: #ffd700;">?</span>
+        <h2 style="color: white; font-size: 1.8em; margin: 0; flex: 1;">@Question.pregunta</h2>
+    </div>
+
+    <div class="answers-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        @{
+            Console.WriteLine($"QuestionCard - Rendering {Question.respuestas?.Count ?? 0} answers");
+        }
+        @foreach (var (answer, index) in Question.respuestas.Select((a, i) => (a, i)))
+        {
+            var letter = GetAnswerLetter(index);
+            <button class="answer-btn @GetAnswerClass(answer)" 
+                    style="display: flex; align-items: center; gap: 15px; background: linear-gradient(145deg, #0f172a, #1e293b); border: 3px solid #334155; border-radius: 15px; padding: 25px 30px; cursor: pointer; color: white; font-size: 1.2em; text-align: left;"
+                    @onclick="@(() => OnAnswerClick(answer))"
+                    disabled="@IsAnswerLocked">
+                <span class="answer-letter" style="background: linear-gradient(145deg, #1e3a8a, #3b82f6); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.3em;">@letter:</span>
+                <span class="answer-text" style="flex: 1;">@answer.textoRespuesta</span>
+            </button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Pregunta Question { get; set; } = null!;
+
+    [Parameter]
+    public EventCallback<Respuesta> OnAnswerSelected { get; set; }
+
+    [Parameter]
+    public bool IsAnswerLocked { get; set; }
+
+    [Parameter]
+    public Respuesta? SelectedAnswer { get; set; }
+
+    [Parameter]
+    public bool ShowCorrectAnswer { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine($"QuestionCard initialized with question: {Question?.pregunta ?? "NULL"}");
+    }
+
+    private async Task OnAnswerClick(Respuesta answer)
+    {
+        if (!IsAnswerLocked)
+        {
+            await OnAnswerSelected.InvokeAsync(answer);
+        }
+    }
+
+    private string GetAnswerLetter(int index)
+    {
+        return ((char)('A' + index)).ToString();
+    }
+
+    private string GetAnswerClass(Respuesta answer)
+    {
+        if (!IsAnswerLocked && SelectedAnswer == null)
+            return "";
+
+        if (SelectedAnswer == answer && !ShowCorrectAnswer)
+            return "selected";
+
+        if (ShowCorrectAnswer)
+        {
+            if (answer.esCorrecta)
+                return "correct";
+            if (SelectedAnswer == answer && !answer.esCorrecta)
+                return "incorrect";
+        }
+
+        return "";
+    }
+}
