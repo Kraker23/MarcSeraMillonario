@@ -1,0 +1,214 @@
+{
+  "preguntas": [
+    {
+      "pregunta": "¿Cuál es la capital de España?",
+      "respuestas": [
+        {
+          "texto": "Madrid",
+          "esCorrecta": true
+        },
+        {
+          "texto": "Barcelona",
+          "esCorrecta": false
+        },
+        {
+          "texto": "Valencia",
+          "esCorrecta": false
+        },
+        {
+          "texto": "Sevilla",
+          "esCorrecta": false
+        }
+      ]
+    },
+    {
+      "pregunta": "¿En qué año llegó el hombre a la Luna?",
+      "respuestas": [
+        {
+          "texto": "1965",
+          "esCorrecta": false
+        },
+        {
+          "texto": "1969",
+          "esCorrecta": true
+        },
+        {
+          "texto": "1972",
+          "esCorrecta": false
+        },
+        {
+          "texto": "1975",
+          "esCorrecta": false
+        }
+      ]
+    },
+    {
+      "pregunta": "¿Quién pintó 'La Gioconda'?",
+      "respuestas": [
+        {
+          "texto": "Picasso",
+          "esCorrecta": false
+        },
+        {
+          "texto": "Da Vinci",
+          "esCorrecta": true
+        },
+        {
+          "texto": "Van Gogh",
+          "esCorrecta": false
+        },
+        {
+          "texto": "Dalí",
+          "esCorrecta": false
+        }
+      ]
+    },
+    {
+      "pregunta": "¿Cuál es el planeta más grande del sistema solar?",
+      "respuestas": [
+        {
+          "texto": "Marte",
+          "esCorrecta": false
+        },
+        {
+          "texto": "Júpiter",
+          "esCorrecta": true
+        },
+        {
+          "texto": "Saturno",
+          "esCorrecta": false
+        },
+        {
+          "texto": "Neptuno",
+          "esCorrecta": false
+        }
+      ]
+    },
+    {
+      "pregunta": "¿Quién escribió 'Don Quijote de la Mancha'?",
+      "respuestas": [
+        {
+          "texto": "Lope de Vega",
+          "esCorrecta": false
+        },
+        {
+          "texto": "Miguel de Cervantes",
+          "esCorrecta": true
+        },
+        {
+          "texto": "García Lorca",
+          "esCorrecta": false
+        },
+        {
+          "texto": "Quevedo",
+          "esCorrecta": false
+        }
+      ]
+    },
+    {
+      "pregunta": "¿Cuál es el río más largo del mundo?",
+      "respuestas": [
+        {
+          "texto": "Nilo",
+          "esCorrecta": false
+        },
+        {
+          "texto": "Amazonas",
+          "esCorrecta": true
+        },
+        {
+          "texto": "Yangtsé",
+          "esCorrecta": false
+        },
+        {
+          "texto": "Misisipi",
+          "esCorrecta": false
+        }
+      ]
+    },
+    {
+      "pregunta": "¿En qué continente se encuentra Egipto?",
+      "respuestas": [
+        {
+          "texto": "Asia",
+          "esCorrecta": false
+        },
+        {
+          "texto": "África",
+          "esCorrecta": true
+        },
+        {
+          "texto": "Europa",
+          "esCorrecta": false
+        },
+        {
+          "texto": "América",
+          "esCorrecta": false
+        }
+      ]
+    },
+    {
+      "pregunta": "¿Cuántos lados tiene un hexágono?",
+      "respuestas": [
+        {
+          "texto": "5",
+          "esCorrecta": false
+        },
+        {
+          "texto": "6",
+          "esCorrecta": true
+        },
+        {
+          "texto": "7",
+          "esCorrecta": false
+        },
+        {
+          "texto": "8",
+          "esCorrecta": false
+        }
+      ]
+    },
+    {
+      "pregunta": "¿Quién fue el primer presidente de Estados Unidos?",
+      "respuestas": [
+        {
+          "texto": "Thomas Jefferson",
+          "esCorrecta": false
+        },
+        {
+          "texto": "George Washington",
+          "esCorrecta": true
+        },
+        {
+          "texto": "Abraham Lincoln",
+          "esCorrecta": false
+        },
+        {
+          "texto": "John Adams",
+          "esCorrecta": false
+        }
+      ]
+    },
+    {
+      "pregunta": "¿Cuál es el elemento químico con símbolo 'Au'?",
+      "respuestas": [
+        {
+          "texto": "Plata",
+          "esCorrecta": false
+        },
+        {
+          "texto": "Oro",
+          "esCorrecta": true
+        },
+        {
+          "texto": "Cobre",
+          "esCorrecta": false
+        },
+        {
+          "texto": "Hierro",
+          "esCorrecta": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+﻿@page 
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<style>
+    .home-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        padding: 50px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .home-title {
+        font-size: 4rem;
+        font-weight: bold;
+        color: #ffd700;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        margin-bottom: 20px;
+        text-align: center;
+        animation: fadeInDown 1s;
+    }
+
+    .home-subtitle {
+        font-size: 1.5rem;
+        color: #fff;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .btn-start-game {
+        padding: 20px 60px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+        color: #000;
+        border: none;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+    }
+
+    .btn-start-game:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+        background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
+    }
+
+    @@keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .features {
+        margin-top: 50px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        width: 100%;
+        max-width: 800px;
+    }
+
+    .feature-card {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        color: #fff;
+    }
+
+    .feature-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="home-container">
+    <h1 class="home-title">¿QUIÉN QUIERE SER MILLONARIO?</h1>
+    <p class="home-subtitle">¿Tienes lo que se necesita para ganar el gran premio?</p>
+
+    <a asp-page="/Juego" class="btn-start-game">¡COMENZAR JUEGO!</a>
+
+    <div class="features">
+        <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <h3>10 Preguntas</h3>
+            <p>Responde correctamente para ganar</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">💰</div>
+            <h3>1.000.000€</h3>
+            <p>El premio máximo te espera</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>Una oportunidad</h3>
+            <p>Piensa bien antes de responder</p>
+        </div>
+    </div>
+</div>

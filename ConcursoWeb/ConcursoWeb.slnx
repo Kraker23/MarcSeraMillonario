@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ConcursoWeb.Shared/ConcursoWeb.Shared.csproj" />
+  <Project Path="ConcursoWeb/ConcursoWeb.csproj" />
+</Solution>

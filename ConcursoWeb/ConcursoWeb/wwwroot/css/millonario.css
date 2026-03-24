@@ -1,0 +1,354 @@
+/* Estilos para el juego ¿Quién quiere ser millonario? */
+
+.millonario-container {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    overflow: hidden;
+}
+
+.game-header {
+    text-align: center;
+    padding: 15px 20px;
+    flex-shrink: 0;
+}
+
+.game-title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: bold;
+    color: #ffd700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: pulse 2s infinite;
+    margin: 0;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+.game-content {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 20px;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px 20px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.main-game-area {
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.main-game-area::-webkit-scrollbar {
+    width: 8px;
+}
+
+.main-game-area::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.main-game-area::-webkit-scrollbar-thumb {
+    background: #ffd700;
+    border-radius: 10px;
+}
+
+.main-game-area::-webkit-scrollbar-thumb:hover {
+    background: #ffed4e;
+}
+
+@media (max-width: 992px) {
+    .game-content {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+    }
+
+    .main-game-area {
+        overflow-y: visible;
+        padding-right: 0;
+    }
+
+    .prize-ladder {
+        order: -1;
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .game-content {
+        gap: 15px;
+        padding: 0 10px 10px;
+    }
+
+    .game-header {
+        padding: 10px;
+    }
+}
+
+.question-panel {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    border: 3px solid #ffd700;
+    border-radius: 15px;
+    padding: clamp(15px, 3vw, 30px);
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.question-number {
+    color: #ffd700;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.question-prize {
+    color: #4ecdc4;
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.question-text {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    line-height: 1.5;
+    color: #fff;
+    text-align: center;
+}
+
+.answers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .answers-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+.answer-form {
+    margin: 0;
+}
+
+.answer-btn {
+    width: 100%;
+    padding: clamp(12px, 2vw, 18px);
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    border: 2px solid #ffd700;
+    border-radius: 10px;
+    color: #fff;
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 50px;
+}
+
+.answer-btn:hover {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: #000;
+    transform: scale(1.03);
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+}
+
+.answer-letter {
+    font-weight: bold;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    min-width: 25px;
+}
+
+.answer-text {
+    text-align: left;
+    flex: 1;
+}
+
+.message {
+    padding: clamp(12px, 2vw, 18px);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    text-align: center;
+    font-weight: bold;
+    animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.message-correct {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    border: 2px solid #fff;
+}
+
+.message-incorrect {
+    background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+    border: 2px solid #fff;
+}
+
+.actions {
+    text-align: center;
+}
+
+.btn-retire {
+    padding: clamp(10px, 2vw, 15px) clamp(20px, 4vw, 40px);
+    background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+    border: 2px solid #ffd700;
+    border-radius: 10px;
+    color: #fff;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-retire:hover {
+    background: linear-gradient(135deg, #d35400 0%, #e67e22 100%);
+    transform: scale(1.03);
+}
+
+.game-over {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    border: 3px solid #ffd700;
+    border-radius: 15px;
+    padding: clamp(20px, 5vw, 50px);
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.game-over-title {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    color: #ffd700;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.game-over-message {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    margin-bottom: 30px;
+}
+
+.btn-new-game,
+.btn-home {
+    display: inline-block;
+    padding: clamp(10px, 2vw, 15px) clamp(20px, 4vw, 40px);
+    margin: 10px;
+    border-radius: 10px;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid #ffd700;
+}
+
+.btn-new-game {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-new-game:hover {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    transform: scale(1.03);
+}
+
+.btn-home {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: #fff;
+}
+
+.btn-home:hover {
+    background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+    transform: scale(1.03);
+}
+
+.prize-ladder {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    border: 2px solid #ffd700;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    height: fit-content;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+}
+
+@media (max-width: 992px) {
+    .prize-ladder {
+        position: static;
+        overflow-y: visible;
+    }
+}
+
+.prize-ladder h3 {
+    color: #ffd700;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+}
+
+.prize-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.prize-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(8px, 1.5vw, 12px) clamp(10px, 2vw, 15px);
+    margin-bottom: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-size: clamp(0.9rem, 1.8vw, 1rem);
+}
+
+.prize-item.active {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: #000;
+    font-weight: bold;
+    animation: highlight 1s infinite;
+}
+
+@keyframes highlight {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.prize-item.completed {
+    background: rgba(39, 174, 96, 0.3);
+}
+
+.prize-number {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.prize-amount {
+    font-weight: bold;
+}

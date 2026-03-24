@@ -1,0 +1,92 @@
+@page 
+@model JuegoModel
+@{
+    ViewData["Title"] = "¿Quién quiere ser millonario?";
+}
+
+<link rel="stylesheet" href="~/css/millonario.css" asp-append-version="true" />
+
+<div class="millonario-container">
+    <div class="game-header">
+        <h1 class="game-title">¿QUIÉN QUIERE SER MILLONARIO?</h1>
+    </div>
+
+    <div class="game-content">
+        <div class="main-game-area">
+        @if (!Model.JuegoTerminado && Model.Preguntas.Any())
+        {
+            var pregunta = Model.Preguntas[Model.PreguntaActual];
+
+            <div class="question-panel">
+                <div class="question-number">
+                    Pregunta @(Model.PreguntaActual + 1) de @Model.Preguntas.Count
+                </div>
+                <div class="question-prize">
+                    Por @Model.ObtenerPremio(Model.PreguntaActual).ToString("N0")€
+                </div>
+                <div class="question-text">
+                    @pregunta.pregunta
+                </div>
+            </div>
+
+            <div class="answers-grid">
+                @for (int i = 0; i < pregunta.respuestas.Count; i++)
+                {
+                    var respuesta = pregunta.respuestas[i];
+                    var letra = ((char)('A' + i)).ToString();
+                    var respuestCorrecta = $"({(respuesta.esCorrecta ? "S" : "N")})";
+
+                    <form method="post" class="answer-form">
+                        <input type="hidden" name="respuestaId" value="@respuesta.IdRespuesta" />
+                        <button type="submit" class="answer-btn">
+                            <span class="answer-letter">@letra:</span>
+                            <span class="answer-text">@(respuesta.textoRespuesta + " " + respuestCorrecta)</span>
+                        </button>
+                    </form>
+                }
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Mensaje))
+            {
+                <div class="message @(Model.RespuestaCorrecta ? "message-correct" : "message-incorrect")">
+                    @Model.Mensaje
+                </div>
+            }
+
+            <div class="actions">
+                <form method="post" asp-page-handler="Retirarse">
+                    <button type="submit" class="btn-retire">Retirarse con @Model.PuntosAcumulados.ToString("N0")€</button>
+                </form>
+            </div>
+        }
+        else if (Model.JuegoTerminado)
+        {
+            <div class="game-over">
+                <div class="game-over-title">¡JUEGO TERMINADO!</div>
+                <div class="game-over-message">@Model.Mensaje</div>
+                <form method="post" asp-page-handler="NuevoJuego">
+                    <button type="submit" class="btn-new-game">Nuevo Juego</button>
+                </form>
+                <a asp-page="/Index" class="btn-home">Volver al Inicio</a>
+            </div>
+        }
+        </div>
+
+        <div class="prize-ladder">
+            <h3>Escalera de Premios</h3>
+            <ul class="prize-list">
+                @for (int i = 9; i >= 0; i--)
+                {
+                    var premio = Model.ObtenerPremio(i);
+                    var claseActiva = Model.PreguntaActual == i && !Model.JuegoTerminado ? "active" : "";
+                    var claseCompletada = Model.PreguntaActual > i ? "completed" : "";
+
+                    <li class="prize-item @claseActiva @claseCompletada">
+                        <span class="prize-number">@(i + 1)</span>
+                        <span class="prize-amount">@premio.ToString("N0")€</span>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
