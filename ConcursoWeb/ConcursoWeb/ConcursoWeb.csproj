@@ -8,10 +8,14 @@
 
   <ItemGroup>
     <Content Remove="preguntas.json" />
+    <Content Remove="premios.json" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="preguntas.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="premios.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

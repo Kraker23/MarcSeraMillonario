@@ -2,4 +2,25 @@ Tareas pendientes de hacer
 - hacer que el comidin del 50% funcion automaticamente
 - ajustar visuales para que todo se ajuste mas a la pantalla
 - hacer que el juego se pueda jugar con teclado y mouse
-- 
+- crear vista de reglas
+- hacer que los niveles tengan que ver con la pregunta, o con el nivel de relacion
+- crear vista de certificado de buen marido del resultado 
+
+Tareas completadas:
+- ✅ Eliminados objetos DTO no utilizados (QuestionarioDto, PreguntaDto, RespuestaDto)
+- ✅ Implementados 3 comodines (50:50, Cambiar Pregunta, Amigos)
+- ✅ Comodines ubicados en el lateral izquierdo
+- ✅ Lista de premios movida a archivo JSON (premios.json)
+- ✅ Cambio temático: de premios monetarios a niveles de relación (novio/marido)
+- ✅ El juego continúa aunque se falle una pregunta (no termina el juego)
+- ✅ Los niveles fallados se muestran en rojo en la escalera
+- ✅ El nivel alcanzado solo se muestra al finalizar el juego
+
+
+
+Costes
+-> responder bien una pregunta, elegir a alguien para que beba un chupito y tu bebes otro chupito	
+-> responder mal una pregunta , beber dos chupito
+-> responder mal una pregunta con comodin, beber tres chupitos
+
+

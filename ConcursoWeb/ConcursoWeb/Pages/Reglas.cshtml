@@ -1,0 +1,453 @@
+@page
+@model ReglasModel
+@{
+    ViewData["Title"] = "Reglas del Juego";
+}
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .reglas-container {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        box-sizing: border-box;
+    }
+
+    .reglas-header {
+        text-align: center;
+        margin-bottom: 20px;
+        margin-top: 10px;
+        animation: fadeInDown 0.8s ease-out;
+    }
+
+    .reglas-main-title {
+        font-size: 2.8rem;
+        font-weight: bold;
+        color: #ffd700;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+    }
+
+    .reglas-subtitle {
+        font-size: 1.1rem;
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    @@keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .rules-section {
+        background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(44, 62, 80, 0.95) 100%);
+        border: 3px solid transparent;
+        background-clip: padding-box;
+        border-radius: 25px;
+        padding: 30px;
+        max-width: 1100px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                    0 0 0 3px rgba(255, 215, 0, 0.3),
+                    inset 0 0 50px rgba(255, 215, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.8s ease-out;
+        margin-bottom: 20px;
+        flex-shrink: 0;
+    }
+
+    .rules-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+        animation: rotate 20s linear infinite;
+        pointer-events: none;
+    }
+
+    @@keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .rules-title {
+        font-size: 2.2rem;
+        color: #ffd700;
+        text-align: center;
+        margin-bottom: 25px;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
+                     3px 3px 6px rgba(0, 0, 0, 0.7);
+        position: relative;
+        z-index: 1;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .rules-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        box-shadow: 0 0 10px #ffd700;
+    }
+
+    .rules-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        color: #fff;
+        margin-bottom: 25px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .rule-item {
+        background: linear-gradient(135deg, rgba(52, 73, 94, 0.8) 0%, rgba(44, 62, 80, 0.8) 100%);
+        border-left: 5px solid #ffd700;
+        border-radius: 15px;
+        padding: 20px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .rule-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .rule-item:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3),
+                    0 5px 15px rgba(0, 0, 0, 0.5);
+        border-left-width: 8px;
+    }
+
+    .rule-item:hover::before {
+        opacity: 1;
+    }
+
+    .rule-number {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        display: inline-block;
+        animation: bounce 2s ease-in-out infinite;
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+    }
+
+    @@keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .rule-title-item {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #ffd700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        position: relative;
+        z-index: 1;
+    }
+
+    .rule-description {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #e8e8e8;
+        position: relative;
+        z-index: 1;
+    }
+
+    .rule-description strong {
+        color: #ffed4e;
+        font-weight: 900;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .lifelines-info {
+        margin-top: 25px;
+        padding: 25px;
+        background: linear-gradient(135deg, rgba(155, 89, 182, 0.4) 0%, rgba(142, 68, 173, 0.4) 100%);
+        border-radius: 20px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 10px 30px rgba(155, 89, 182, 0.3),
+                    inset 0 0 30px rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(155, 89, 182, 0.5);
+    }
+
+    .lifelines-info h4 {
+        color: #ffd700;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .lifelines-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+    }
+
+    .lifeline-item {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+        padding: 15px;
+        border-radius: 15px;
+        border: 2px solid rgba(255, 215, 0, 0.4);
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .lifeline-item:hover {
+        transform: translateY(-5px) scale(1.05);
+        border-color: #ffd700;
+        box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 237, 78, 0.1) 100%);
+    }
+
+    .lifeline-item span {
+        font-size: 2rem;
+        display: block;
+        margin-bottom: 8px;
+        filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+    }
+
+    .lifeline-item strong {
+        color: #ffed4e;
+        font-size: 1rem;
+        display: block;
+        margin-bottom: 6px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .lifeline-item p {
+        color: #e0e0e0;
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        animation: fadeInUp 1s ease-out;
+        flex-shrink: 0;
+    }
+
+    .btn-accept {
+        padding: 15px 40px;
+        font-size: 1.3rem;
+        font-weight: bold;
+        background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-accept::before {
+        content: '⚡';
+        position: absolute;
+        left: -30px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 2rem;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .btn-accept:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 10px 30px rgba(39, 174, 96, 0.6);
+        background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        padding-left: 60px;
+    }
+
+    .btn-accept:hover::before {
+        left: 15px;
+        opacity: 1;
+    }
+
+    .btn-back {
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+    }
+
+    .btn-back:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(231, 76, 60, 0.6);
+        background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+    }
+
+    @@media (max-width: 768px) {
+        .reglas-main-title {
+            font-size: 2.5rem;
+        }
+
+        .rules-section {
+            padding: 25px;
+        }
+
+        .rules-title {
+            font-size: 2rem;
+        }
+
+        .rules-content {
+            gap: 15px;
+        }
+
+        .rule-number {
+            font-size: 2.5rem;
+        }
+
+        .rule-title-item {
+            font-size: 1.2rem;
+        }
+
+        .lifelines-info h4 {
+            font-size: 1.4rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn-accept, .btn-back {
+            width: 100%;
+            max-width: 300px;
+        }
+    }
+</style>
+
+<div class="reglas-container">
+
+    <div class="rules-section">
+        <h2 class="rules-title">📜 REGLAS DEL JUEGO 🎮</h2>
+        <p class="reglas-subtitle">Lee atentamente las reglas y consecuencias del juego</p>
+
+        <div class="rules-content">
+            <div class="rule-item" style="background: linear-gradient(135deg, rgba(46, 204, 113, 0.4) 0%, rgba(39, 174, 96, 0.3) 100%); border-left-color: #2ecc71;">
+                <div class="rule-number">✅</div>
+                <div class="rule-title-item">Respuesta Correcta</div>
+                <div class="rule-description">
+                    Eliges a alguien para que beba <strong>1 chupito</strong>🍺 y te vengas <br>
+                    Pero no te olvides, que Tú también bebes <strong>1 chupito</strong>🍺
+                </div>
+            </div>
+
+            <div class="rule-item" style="background: linear-gradient(135deg, rgba(231, 76, 60, 0.4) 0%, rgba(192, 57, 43, 0.3) 100%); border-left-color: #e74c3c;">
+                <div class="rule-number">❌</div>
+                <div class="rule-title-item">Respuesta Incorrecta</div>
+                <div class="rule-description">
+                    Sin piedad... <br>
+                    <strong>Bebes 2 chupitos 🍺🍺</strong>
+                </div>
+            </div>
+
+            <div class="rule-item" style="background: linear-gradient(135deg, rgba(155, 89, 182, 0.5) 0%, rgba(142, 68, 173, 0.4) 100%); border-left-color: #9b59b6;">
+                <div class="rule-number">🎯</div>
+                <div class="rule-title-item">Fallo con Comodín</div>
+                <div class="rule-description">
+                    Usaste un comodín y aún así fallaste...<br>
+                    ¡Castigo doble!<br>
+                    <strong>Bebes 3 chupitos 🍺🍺🍺</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="lifelines-info">
+            <h4>🎁 COMODINES DISPONIBLES 🎁</h4>
+            <p style="color: #e0e0e0; margin-bottom: 20px; font-size: 1.1rem;">
+                Cada comodín solo se puede usar <strong style="color: #ffd700;">una vez</strong> por partida
+            </p>
+            <div class="lifelines-grid">
+                <div class="lifeline-item">
+                    <span>🎯</span>
+                    <strong>50:50</strong>
+                    <p>Elimina 2 respuestas incorrectas de las 4 opciones</p>
+                </div>
+                <div class="lifeline-item">
+                    <span>🔄</span>
+                    <strong>Cambiar Pregunta</strong>
+                    <p>Elige a alguien de tus supuestos amigos, y que te haga una pregunta con 4 respuestas.</p>
+                </div>
+                <div class="lifeline-item">
+                    <span>👥</span>
+                    <strong>Ayuda de Amigos</strong>
+                    <p>El programa te sugiere cuál cree que es la respuesta correcta y tus amigos también, ¿de quién te fías más?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a asp-page="/Index" class="btn-back">⬅️ Volver</a>
+        <a asp-page="/Juego" class="btn-accept">ACEPTO LAS CONSECUENCIAS 🍺</a>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+{
+  "premios": [
+    { "nivel": 1, "texto": "Novio Desastroso" },
+    { "nivel": 2, "texto": "Novio Olvidadizo" },
+    { "nivel": 3, "texto": "Novio Regular" },
+    { "nivel": 4, "texto": "Novio Atento" },
+    { "nivel": 5, "texto": "Novio Ejemplar" },
+    { "nivel": 6, "texto": "Marido Despistado" },
+    { "nivel": 7, "texto": "Marido Responsable" },
+    { "nivel": 8, "texto": "Marido Comprometido" },
+    { "nivel": 9, "texto": "Marido Perfecto" },
+    { "nivel": 10, "texto": "Leyenda del Matrimonio" }
+  ]
+}

@@ -12,7 +12,7 @@
         justify-content: center;
         align-items: center;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 15px;
+        border-radius: 0px;
         padding: 50px;
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     }
@@ -86,13 +86,255 @@
         font-size: 2rem;
         margin-bottom: 10px;
     }
+
+    .rules-section {
+        margin-top: 60px;
+        background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(44, 62, 80, 0.95) 100%);
+        border: 3px solid transparent;
+        background-clip: padding-box;
+        border-radius: 25px;
+        padding: 40px;
+        max-width: 1100px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                    0 0 0 3px rgba(255, 215, 0, 0.3),
+                    inset 0 0 50px rgba(255, 215, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    .rules-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+        animation: rotate 20s linear infinite;
+        pointer-events: none;
+    }
+
+    @@keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .rules-title {
+        font-size: 2.8rem;
+        color: #ffd700;
+        text-align: center;
+        margin-bottom: 40px;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
+                     3px 3px 6px rgba(0, 0, 0, 0.7);
+        position: relative;
+        z-index: 1;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .rules-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        box-shadow: 0 0 10px #ffd700;
+    }
+
+    .rules-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        color: #fff;
+        margin-bottom: 40px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .rule-item {
+        background: linear-gradient(135deg, rgba(52, 73, 94, 0.8) 0%, rgba(44, 62, 80, 0.8) 100%);
+        border-left: 5px solid #ffd700;
+        border-radius: 15px;
+        padding: 25px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .rule-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .rule-item:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3),
+                    0 5px 15px rgba(0, 0, 0, 0.5);
+        border-left-width: 8px;
+    }
+
+    .rule-item:hover::before {
+        opacity: 1;
+    }
+
+    .rule-number {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        display: inline-block;
+        animation: bounce 2s ease-in-out infinite;
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+    }
+
+    @@keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .rule-title-item {
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin-bottom: 12px;
+        color: #ffd700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        position: relative;
+        z-index: 1;
+    }
+
+    .rule-description {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: #e8e8e8;
+        position: relative;
+        z-index: 1;
+    }
+
+    .rule-description strong {
+        color: #ffed4e;
+        font-weight: 900;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .lifelines-info {
+        margin-top: 40px;
+        padding: 30px;
+        background: linear-gradient(135deg, rgba(155, 89, 182, 0.4) 0%, rgba(142, 68, 173, 0.4) 100%);
+        border-radius: 20px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 10px 30px rgba(155, 89, 182, 0.3),
+                    inset 0 0 30px rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(155, 89, 182, 0.5);
+    }
+
+    .lifelines-info h4 {
+        color: #ffd700;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .lifelines-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+    }
+
+    .lifeline-item {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+        padding: 20px;
+        border-radius: 15px;
+        border: 2px solid rgba(255, 215, 0, 0.4);
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .lifeline-item:hover {
+        transform: translateY(-5px) scale(1.05);
+        border-color: #ffd700;
+        box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 237, 78, 0.1) 100%);
+    }
+
+    .lifeline-item span {
+        font-size: 2.5rem;
+        display: block;
+        margin-bottom: 10px;
+        filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+    }
+
+    .lifeline-item strong {
+        color: #ffed4e;
+        font-size: 1.1rem;
+        display: block;
+        margin-bottom: 8px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .lifeline-item p {
+        color: #e0e0e0;
+        margin: 0;
+    }
+
+    @@media (max-width: 768px) {
+        .rules-section {
+            padding: 25px;
+            margin-top: 40px;
+        }
+
+        .rules-title {
+            font-size: 2rem;
+        }
+
+        .rules-content {
+            gap: 15px;
+        }
+
+        .rule-number {
+            font-size: 2.5rem;
+        }
+
+        .rule-title-item {
+            font-size: 1.2rem;
+        }
+
+        .lifelines-info h4 {
+            font-size: 1.4rem;
+        }
+    }
 </style>
 
 <div class="home-container">
-    <h1 class="home-title">¿QUIÉN QUIERE SER MILLONARIO?</h1>
-    <p class="home-subtitle">¿Tienes lo que se necesita para ganar el gran premio?</p>
+    <h1 class="home-title">¿QUIÉN QUIERE SER EL MEJOR MARIDO?</h1>
+    <p class="home-subtitle">¿Tienes lo que se necesita para ser el gran marido?</p>
 
-    <a asp-page="/Juego" class="btn-start-game">¡COMENZAR JUEGO!</a>
+    <a asp-page="/Reglas" class="btn-start-game">¡COMENZAR JUEGO!</a>
 
     <div class="features">
         <div class="feature-card">
@@ -102,13 +344,13 @@
         </div>
         <div class="feature-card">
             <div class="feature-icon">💰</div>
-            <h3>1.000.000€</h3>
-            <p>El premio máximo te espera</p>
+            <h3>10 Niveles</h3>
+            <p>Desde <strong>Novio Desastroso</strong> hasta <strong>Leyenda del Matrimonio</strong></p>
         </div>
         <div class="feature-card">
             <div class="feature-icon">🎯</div>
-            <h3>Una oportunidad</h3>
-            <p>Piensa bien antes de responder</p>
+            <h3>3 Comodines</h3>
+            <p>Usa tus ayudas estratégicamente</p>
         </div>
     </div>
 </div>

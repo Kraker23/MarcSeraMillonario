@@ -1,4 +1,4 @@
-@page 
+@page
 @model JuegoModel
 @{
     ViewData["Title"] = "¿Quién quiere ser millonario?";
@@ -12,78 +12,139 @@
     </div>
 
     <div class="game-content">
-        <div class="main-game-area">
-        @if (!Model.JuegoTerminado && Model.Preguntas.Any())
-        {
-            var pregunta = Model.Preguntas[Model.PreguntaActual];
-
-            <div class="question-panel">
-                <div class="question-number">
-                    Pregunta @(Model.PreguntaActual + 1) de @Model.Preguntas.Count
-                </div>
-                <div class="question-prize">
-                    Por @Model.ObtenerPremio(Model.PreguntaActual).ToString("N0")€
-                </div>
-                <div class="question-text">
-                    @pregunta.pregunta
-                </div>
-            </div>
-
-            <div class="answers-grid">
-                @for (int i = 0; i < pregunta.respuestas.Count; i++)
-                {
-                    var respuesta = pregunta.respuestas[i];
-                    var letra = ((char)('A' + i)).ToString();
-                    var respuestCorrecta = $"({(respuesta.esCorrecta ? "S" : "N")})";
-
-                    <form method="post" class="answer-form">
-                        <input type="hidden" name="respuestaId" value="@respuesta.IdRespuesta" />
-                        <button type="submit" class="answer-btn">
-                            <span class="answer-letter">@letra:</span>
-                            <span class="answer-text">@(respuesta.textoRespuesta + " " + respuestCorrecta)</span>
+        <div class="sidebar-left">
+            <div class="lifelines-container">
+                <h3>Comodines</h3>
+                <div class="lifelines">
+                    <form method="post" asp-page-handler="Usar5050">
+                        <button type="submit" class="btn-lifeline" disabled="@Model.Comodin5050Usado">
+                            <span class="lifeline-icon">🎯</span>
+                            <span class="lifeline-text">50:50</span>
                         </button>
                     </form>
+                    <form method="post" asp-page-handler="CambiarPregunta">
+                        <button type="submit" class="btn-lifeline" disabled="@Model.ComodinCambiarPreguntaUsado">
+                            <span class="lifeline-icon">🔄</span>
+                            <span class="lifeline-text">Cambiar</span>
+                        </button>
+                    </form>
+                    <form method="post" asp-page-handler="ComodinAmigos">
+                        <button type="submit" class="btn-lifeline" disabled="@Model.ComodinAmigosUsado">
+                            <span class="lifeline-icon">👥</span>
+                            <span class="lifeline-text">Amigos</span>
+                        </button>
+                    </form>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.MensajeAmigos))
+                {
+                    <div class="friends-advice">
+                        @Model.MensajeAmigos
+                    </div>
                 }
             </div>
+        </div>
 
-            @if (!string.IsNullOrEmpty(Model.Mensaje))
+        <div class="main-game-area">
+            @if (!Model.JuegoTerminado && Model.Preguntas.Any())
             {
-                <div class="message @(Model.RespuestaCorrecta ? "message-correct" : "message-incorrect")">
-                    @Model.Mensaje
+                var pregunta = Model.Preguntas[Model.PreguntaActual];
+
+                <div class="question-panel">
+                    <div class="question-number">
+                        Pregunta @(Model.PreguntaActual + 1) de @Model.Preguntas.Count
+                    </div>
+                    <div class="question-prize">
+                        Nivel en juego: @Model.ObtenerPremio(Model.PreguntaActual)
+                    </div>
+                    <div class="question-text">
+                        @pregunta.pregunta
+                    </div>
+                </div>
+
+                <div class="answers-grid">
+                    @for (int i = 0; i < pregunta.respuestas.Count; i++)
+                    {
+                        var respuesta = pregunta.respuestas[i];
+                        var letra = ((char)('A' + i)).ToString();
+                        var respuestCorrecta = $"({(respuesta.esCorrecta ? "S" : "N")})";
+                        var estaEliminada = Model.RespuestasEliminadas.Contains(respuesta.IdRespuesta);
+
+                        @if (!estaEliminada)
+                        {
+                            @*  <form method="post" class="answer-form"> *@
+                            <form method="post" asp-page-handler="Respuesta">
+                                <input type="hidden" name="respuestaId" value="@respuesta.IdRespuesta" />
+                                <button type="submit" class="answer-btn">
+                                    <span class="answer-letter">@letra:</span>
+                                    <span class="answer-text">@(respuesta.textoRespuesta + " " + respuestCorrecta)</span>
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <div class="answer-form">
+                                <div class="answer-btn answer-eliminated">
+                                    <span class="answer-letter">@letra:</span>
+                                    <span class="answer-text">---</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Mensaje))
+                {
+                    <div class="message @(Model.RespuestaCorrecta ? "message-correct" : "message-incorrect")">
+                        @Model.Mensaje
+                    </div>
+                }
+
+                <div class="actions">
+                    <form method="post" asp-page-handler="Retirarse">
+                        <button type="submit" class="btn-retire">Retirarse - Nivel: @(string.IsNullOrEmpty(Model.NivelAlcanzado) ? "Sin nivel" : Model.NivelAlcanzado)</button>
+                    </form>
                 </div>
             }
-
-            <div class="actions">
-                <form method="post" asp-page-handler="Retirarse">
-                    <button type="submit" class="btn-retire">Retirarse con @Model.PuntosAcumulados.ToString("N0")€</button>
-                </form>
-            </div>
-        }
-        else if (Model.JuegoTerminado)
-        {
-            <div class="game-over">
-                <div class="game-over-title">¡JUEGO TERMINADO!</div>
-                <div class="game-over-message">@Model.Mensaje</div>
-                <form method="post" asp-page-handler="NuevoJuego">
-                    <button type="submit" class="btn-new-game">Nuevo Juego</button>
-                </form>
-                <a asp-page="/Index" class="btn-home">Volver al Inicio</a>
-            </div>
-        }
+            else if (Model.JuegoTerminado)
+            {
+                <div class="game-over">
+                    <div class="game-over-title">¡JUEGO TERMINADO!</div>
+                    <div class="game-over-message">@Model.Mensaje</div>
+                    @if (!string.IsNullOrEmpty(Model.NivelAlcanzado))
+                    {
+                        <div class="final-level">
+                            <strong>Nivel alcanzado:</strong> @Model.NivelAlcanzado
+                        </div>
+                    }
+                    <a asp-page="/Resumen" class="btn-certificate">🏆 Ver Certificado de Marido 💍</a>
+                    <form method="post" asp-page-handler="NuevoJuego">
+                        <button type="submit" class="btn-new-game">Nuevo Juego</button>
+                    </form>
+                    <a asp-page="/Index" class="btn-home">Volver al Inicio</a>
+                </div>
+            }
         </div>
 
         <div class="prize-ladder">
-            <h3>Escalera de Premios</h3>
+            <h3>Niveles de Relación</h3>
             <ul class="prize-list">
                 @for (int i = 9; i >= 0; i--)
                 {
                     var premio = Model.ObtenerPremio(i);
                     var claseActiva = Model.PreguntaActual == i && !Model.JuegoTerminado ? "active" : "";
                     var claseCompletada = Model.PreguntaActual > i ? "completed" : "";
+                    var claseFallada = Model.NivelesFallados.Contains(i) ? "failed" : "";
+                    var comodinUsado = Model.ComodinesUsadosPorNivel.ContainsKey(i) ? Model.ComodinesUsadosPorNivel[i] : "";
 
-                    <li class="prize-item @claseActiva @claseCompletada">
+                    <li class="prize-item @claseActiva @claseCompletada @claseFallada">
                         <span class="prize-number">@(i + 1)</span>
-                        <span class="prize-amount">@premio.ToString("N0")€</span>
+                        <span class="prize-amount">
+                            @premio
+                            @if (!string.IsNullOrEmpty(comodinUsado))
+                            {
+                                <span class="lifeline-badge">@comodinUsado</span>
+                            }
+                        </span>
                     </li>
                 }
             </ul>

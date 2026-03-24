@@ -32,9 +32,9 @@
 
 .game-content {
     display: grid;
-    grid-template-columns: 1fr 280px;
+    grid-template-columns: 200px 1fr 280px;
     gap: 20px;
-    max-width: 1400px;
+    max-width: 1600px;
     width: 100%;
     margin: 0 auto;
     padding: 0 20px 20px;
@@ -71,13 +71,17 @@
         overflow-y: auto;
     }
 
+    .sidebar-left {
+        order: -1;
+    }
+
     .main-game-area {
         overflow-y: visible;
         padding-right: 0;
     }
 
     .prize-ladder {
-        order: -1;
+        order: 1;
         max-height: 300px;
     }
 }
@@ -114,6 +118,17 @@
     font-size: clamp(1.2rem, 2.5vw, 1.5rem);
     font-weight: bold;
     margin-bottom: 15px;
+}
+
+.current-level {
+    color: #27ae60;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: rgba(39, 174, 96, 0.2);
+    border-radius: 8px;
+    border: 2px solid #27ae60;
 }
 
 .question-text {
@@ -248,6 +263,16 @@
     margin-bottom: 30px;
 }
 
+.final-level {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    color: #27ae60;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: rgba(39, 174, 96, 0.2);
+    border-radius: 10px;
+    border: 2px solid #27ae60;
+}
+
 .btn-new-game,
 .btn-home {
     display: inline-block;
@@ -344,11 +369,175 @@
     background: rgba(39, 174, 96, 0.3);
 }
 
+.prize-item.failed {
+    background: rgba(192, 57, 43, 0.4);
+    border: 1px solid #e74c3c;
+}
+
 .prize-number {
     font-weight: bold;
     margin-right: 10px;
 }
 
 .prize-amount {
+    flex: 1;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.lifeline-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(155, 89, 182, 0.8) 0%, rgba(142, 68, 173, 0.8) 100%);
+    border: 2px solid #ffd700;
+    border-radius: 50%;
+    padding: 4px;
+    font-size: 1.1rem;
+    line-height: 1;
+    min-width: 28px;
+    min-height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.6);
+    }
+}
+
+.prize-item.active .lifeline-badge {
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.9) 0%, rgba(39, 174, 96, 0.9) 100%);
+    border-color: #000;
+}
+
+.prize-item.failed .lifeline-badge {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.8) 0%, rgba(192, 57, 43, 0.8) 100%);
+    border-color: #ffd700;
+}
+
+.prize-item.completed .lifeline-badge {
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.8) 0%, rgba(46, 204, 113, 0.8) 100%);
+    border-color: #ffd700;
+}
+
+.prize-amount {
     font-weight: bold;
 }
+
+.lifelines-container {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    border: 2px solid #ffd700;
+    border-radius: 15px;
+    padding: clamp(15px, 3vw, 20px);
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.lifelines-container h4 {
+    color: #ffd700;
+    margin-bottom: 15px;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    text-align: center;
+}
+
+.lifelines {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-lifeline {
+    padding: clamp(8px, 1.5vw, 12px) clamp(15px, 3vw, 20px);
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+    border: 2px solid #ffd700;
+    border-radius: 10px;
+    color: #fff;
+    font-size: clamp(0.85rem, 1.8vw, 1rem);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-lifeline:hover:not(:disabled) {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: #000;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
+}
+
+.btn-lifeline:disabled {
+    background: linear-gradient(135deg, #7f8c8d 0%, #95a5a6 100%);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.friends-advice {
+    margin-top: 15px;
+    padding: 12px;
+    background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+    border: 2px solid #fff;
+    border-radius: 10px;
+    text-align: center;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    font-weight: bold;
+    animation: slideIn 0.5s ease;
+}
+
+.answer-eliminated {
+    background: linear-gradient(135deg, #7f8c8d 0%, #95a5a6 100%);
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.answer-eliminated:hover {
+    background: linear-gradient(135deg, #7f8c8d 0%, #95a5a6 100%);
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-certificate {
+    display: inline-block;
+    padding: clamp(15px, 3vw, 20px) clamp(30px, 5vw, 50px);
+    margin: 10px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    border: 3px solid #fff;
+    border-radius: 15px;
+    color: #000;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+    animation: certificatePulse 2s ease-in-out infinite;
+}
+
+@keyframes certificatePulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 12px 35px rgba(255, 215, 0, 0.8);
+    }
+}
+
+.btn-certificate:hover {
+    background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
+    transform: scale(1.08);
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.9);
+}
+
