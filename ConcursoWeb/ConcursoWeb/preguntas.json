@@ -1,214 +1,228 @@
 {
   "preguntas": [
     {
-      "pregunta": "¿Cuál es la capital de España?",
+      "pregunta": "¿Película favorita de Elena?",
       "respuestas": [
         {
-          "texto": "Madrid",
+          "texto": "crepúsculo",
           "esCorrecta": true
         },
         {
-          "texto": "Barcelona",
+          "texto": "la bella y la bestia",
           "esCorrecta": false
         },
         {
-          "texto": "Valencia",
+          "texto": "grease",
           "esCorrecta": false
         },
         {
-          "texto": "Sevilla",
+          "texto": " pequeños guerreros",
           "esCorrecta": false
         }
       ]
     },
     {
-      "pregunta": "¿En qué año llegó el hombre a la Luna?",
+      "pregunta": "¿Comida favorita de Elena?",
       "respuestas": [
         {
-          "texto": "1965",
+          "texto": "carne con patatas",
           "esCorrecta": false
         },
         {
-          "texto": "1969",
+          "texto": "bocadillo de frankfurt",
           "esCorrecta": true
         },
         {
-          "texto": "1972",
+          "texto": "los macarrones de marc",
           "esCorrecta": false
         },
         {
-          "texto": "1975",
+          "texto": "burritos",
           "esCorrecta": false
         }
       ]
     },
     {
-      "pregunta": "¿Quién pintó 'La Gioconda'?",
+      "pregunta": "¿Qué es lo que más odia Elena de ti?",
       "respuestas": [
         {
-          "texto": "Picasso",
+          "texto": "",
           "esCorrecta": false
         },
         {
-          "texto": "Da Vinci",
+          "texto": "",
           "esCorrecta": true
         },
         {
-          "texto": "Van Gogh",
+          "texto": "",
           "esCorrecta": false
         },
         {
-          "texto": "Dalí",
+          "texto": "",
           "esCorrecta": false
         }
       ]
     },
     {
-      "pregunta": "¿Cuál es el planeta más grande del sistema solar?",
+      "pregunta": "¿Viaje soñado de Elena?",
       "respuestas": [
         {
-          "texto": "Marte",
+          "texto": " corea en verano",
           "esCorrecta": false
         },
         {
-          "texto": "Júpiter",
+          "texto": " barrera de coral australiana",
           "esCorrecta": true
         },
         {
-          "texto": "Saturno",
+          "texto": "maldivas",
           "esCorrecta": false
         },
         {
-          "texto": "Neptuno",
+          "texto": "corea en navidad",
           "esCorrecta": false
         }
       ]
     },
     {
-      "pregunta": "¿Quién escribió 'Don Quijote de la Mancha'?",
+      "pregunta": "¿Qué es lo que más odia Elena en general?",
       "respuestas": [
         {
-          "texto": "Lope de Vega",
-          "esCorrecta": false
-        },
-        {
-          "texto": "Miguel de Cervantes",
+          "texto": " la incompetencia",
           "esCorrecta": true
         },
         {
-          "texto": "García Lorca",
+          "texto": "la comunidad del lol",
           "esCorrecta": false
         },
         {
-          "texto": "Quevedo",
+          "texto": "el lol",
+          "esCorrecta": false
+        },
+        {
+          "texto": "no tener dinero para gastar",
           "esCorrecta": false
         }
       ]
     },
     {
-      "pregunta": "¿Cuál es el río más largo del mundo?",
+      "pregunta": "¿Cuál es lo que más le gusta a Elena de ti?",
       "respuestas": [
         {
-          "texto": "Nilo",
+          "texto": "sus ojos",
           "esCorrecta": false
         },
         {
-          "texto": "Amazonas",
+          "texto": "sus biceps",
           "esCorrecta": true
         },
         {
-          "texto": "Yangtsé",
+          "texto": "su sentido del humor",
           "esCorrecta": false
         },
         {
-          "texto": "Misisipi",
+          "texto": "la forma en que me trata",
           "esCorrecta": false
         }
       ]
     },
     {
-      "pregunta": "¿En qué continente se encuentra Egipto?",
+      "pregunta": "¿Cuál es el pasatiempo favorito de Elena?",
       "respuestas": [
         {
-          "texto": "Asia",
+          "texto": " pole dance",
           "esCorrecta": false
         },
         {
-          "texto": "África",
+          "texto": "gastar dinero, preferiblemente el de Marc",
           "esCorrecta": true
         },
         {
-          "texto": "Europa",
+          "texto": "bailar",
           "esCorrecta": false
         },
         {
-          "texto": "América",
+          "texto": "ir a hacerse las uñas",
           "esCorrecta": false
         }
       ]
     },
     {
-      "pregunta": "¿Cuántos lados tiene un hexágono?",
+      "pregunta": "¿Cuál es el género de libros favoritos de Elena?",
       "respuestas": [
         {
-          "texto": "5",
+          "texto": " romance histórico",
           "esCorrecta": false
         },
         {
-          "texto": "6",
+          "texto": "romance contemporáneo",
           "esCorrecta": true
         },
         {
-          "texto": "7",
+          "texto": "fantasía",
           "esCorrecta": false
         },
         {
-          "texto": "8",
+          "texto": "romance oscuro",
           "esCorrecta": false
         }
       ]
     },
     {
-      "pregunta": "¿Quién fue el primer presidente de Estados Unidos?",
+      "pregunta": "¿Cuál es el gato favorito de Elena?",
       "respuestas": [
         {
-          "texto": "Thomas Jefferson",
+          "texto": "Sylvanas",
           "esCorrecta": false
         },
         {
-          "texto": "George Washington",
+          "texto": "Shiro",
           "esCorrecta": true
         },
         {
-          "texto": "Abraham Lincoln",
+          "texto": "Wilson",
           "esCorrecta": false
         },
         {
-          "texto": "John Adams",
+          "texto": "Illidan",
           "esCorrecta": false
         }
       ]
     },
     {
-      "pregunta": "¿Cuál es el elemento químico con símbolo 'Au'?",
+      "pregunta": "¿Cuál ha sido uno de los mayores sueños durante los últimos 10 años de Elena?",
       "respuestas": [
         {
-          "texto": "Plata",
+          "texto": " ser ingeniera",
           "esCorrecta": false
         },
         {
-          "texto": "Oro",
+          "texto": " tener un acuario con gambas",
           "esCorrecta": true
         },
         {
-          "texto": "Cobre",
+          "texto": " ir a Corea",
           "esCorrecta": false
         },
         {
-          "texto": "Hierro",
+          "texto": "tener gatos",
           "esCorrecta": false
         }
       ]
     }
   ]
 }
+
+/*
+
+1. ¿Película favorita de Elena? (bien: crepúsculo, mal: la bella y la bestia, grease, pequeños guerreros)
+2. ¿Comida favorita de Elena? (bien: bocadillo de frankfurt, mal: carne con patatas, los macarrones de marc, burritos)
+3. ¿Qué es lo que más odia Elena de ti? (me lo pienso jeje)
+4. ¿Viaje soñado de Elena? (bien: barrera de coral australiana, mal: corea en verano, maldivas, corea en navidad)
+5. ¿Qué es lo que más odia Elena en general? (bien: la incompetencia, mal: el lol, la comunidad del lol, no tener dinero para gastar)
+6. ¿Cuál es el pasatiempo favorito de Elena? (bien: gastar dinero, preferiblemente el de Marc, mal: pole dance, bailar, ir a hacerse las uñas)
+7. ¿Cuál es lo que más le gusta a Elena de ti? (bien: sus biceps, mal: sus ojos, su sentido del humor, la forma en que me trata)
+8. ¿Cuál es el género de libros favoritos de Elena? (bien: romance contemporáneo, mal: fantasía, romance histórico, romance oscuro)
+9. ¿Cuál es el gato favorito de Elena? (bien: Shiro, mal: Wilson, Sylvanas, Illidan) 
+10. ¿Cuál ha sido uno de los mayores sueños durante los últimos 10 años de Elena? (bien: tener un acuario con gambas, ser ingeniera, ir a Corea, tener gatos)
+*/
